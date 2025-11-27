@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>诗意动效 - 静夜思</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #0a0e27, #1a1f3a, #2a1a3a);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden;
+            font-family: 'KaiTi', '楷体', serif;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 星空背景 */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* 月亮 */
+        .moon {
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff, #f0e68c);
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.6),
+                        0 0 100px rgba(255, 255, 255, 0.4),
+                        0 0 140px rgba(255, 255, 255, 0.2);
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes moonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 60px rgba(255, 255, 255, 0.6),
+                            0 0 100px rgba(255, 255, 255, 0.4),
+                            0 0 140px rgba(255, 255, 255, 0.2);
+            }
+            50% { 
+                box-shadow: 0 0 80px rgba(255, 255, 255, 0.8),
+                            0 0 120px rgba(255, 255, 255, 0.6),
+                            0 0 180px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        /* 诗歌容器 */
+        .poem-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 60px 80px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: containerFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes containerFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .poem-title {
+            font-size: 48px;
+            color: #fff;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            animation: fadeInDown 1s ease forwards;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .poem-author {
+            font-size: 20px;
+            color: #ccc;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInDown 1s ease 0.3s forwards;
+        }
+
+        .poem-line {
+            font-size: 36px;
+            color: #fff;
+            margin: 25px 0;
+            letter-spacing: 8px;
+            opacity: 0;
+            transform: translateX(-100px);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5),
+                         0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .poem-line:nth-child(3) {
+            animation: slideInLeft 1s ease 0.8s forwards;
+        }
+
+        .poem-line:nth-child(4) {
+            animation: slideInRight 1s ease 1.2s forwards;
+        }
+
+        .poem-line:nth-child(5) {
+            animation: slideInLeft 1s ease 1.6s forwards;
+        }
+
+        .poem-line:nth-child(6) {
+            animation: slideInRight 1s ease 2s forwards;
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* 粒子效果 */
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: particleFloat 8s infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 光晕效果 */
+        .glow-effect {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(147, 112, 219, 0.3), transparent);
+            animation: glowPulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                transform: scale(1) translate(-50%, -50%);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.5) translate(-50%, -50%);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 星空 -->
+    <div class="stars" id="stars"></div>
+
+    <!-- 月亮 -->
+    <div class="moon"></div>
+
+    <!-- 光晕效果 -->
+    <div class="glow-effect" style="top: 30%; left: 20%;"></div>
+    <div class="glow-effect" style="top: 70%; left: 80%; animation-delay: 2s;"></div>
+
+    <!-- 诗歌内容 -->
+    <div class="poem-container">
+        <h1 class="poem-title">静夜思</h1>
+        <p class="poem-author">【唐】李白</p>
+        <p class="poem-line">床前明月光</p>
+        <p class="poem-line">疑是地上霜</p>
+        <p class="poem-line">举头望明月</p>
+        <p class="poem-line">低头思故乡</p>
+    </div>
+
+    <script>
+        // 生成星星
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 150; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // 生成粒子效果
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            document.body.appendChild(particle);
+        }
+
+        // 鼠标跟随光效
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.createElement('div');
+            glow.style.position = 'absolute';
+            glow.style.left = e.pageX + 'px';
+            glow.style.top = e.pageY + 'px';
+            glow.style.width = '10px';
+            glow.style.height = '10px';
+            glow.style.borderRadius = '50%';
+            glow.style.background = 'rgba(255, 255, 255, 0.6)';
+            glow.style.pointerEvents = 'none';
+            glow.style.animation = 'fadeOut 1s ease forwards';
+            document.body.appendChild(glow);
+
+            setTimeout(() => glow.remove(), 1000);
+        });
+
+        // 添加淡出动画
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeOut {
+                to {
+                    opacity: 0;
+                    transform: scale(3);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
